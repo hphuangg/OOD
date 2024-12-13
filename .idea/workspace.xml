@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad13b957-cf0a-41c3-a450-c970135a3979" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/SnowflakeIdGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/UnixFindCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/UrlShortener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/parkinglot/ParkingLotSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +40,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.ParkingLotSystem.executor": "Run",
     "Application.UnixFindCommand.executor": "Run",
+    "Application.UrlShortener.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -53,13 +51,35 @@
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.UrlShortener">
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.example.parkinglot" />
+      <recent name="org.example" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.example.parkinglot" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.ParkingLotSystem">
+    <configuration name="ParkingLotSystem" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.parkinglot.ParkingLotSystem" />
+      <module name="OOD" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.parkinglot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SnowflakeIdGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.SnowflakeIdGenerator" />
       <module name="OOD" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.*" />
+          <option name="PATTERN" value="org.example.parkinglot.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -72,7 +92,7 @@
       <module name="OOD" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.*" />
+          <option name="PATTERN" value="org.example.parkinglot.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -85,7 +105,7 @@
       <module name="OOD" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.*" />
+          <option name="PATTERN" value="org.example.parkinglot.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -95,6 +115,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ParkingLotSystem" />
         <item itemvalue="Application.UrlShortener" />
         <item itemvalue="Application.UnixFindCommand" />
         <item itemvalue="Application.SnowflakeIdGenerator" />
@@ -122,5 +143,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/parkinglot/ParkingLotSystem.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
