@@ -33,7 +33,6 @@ public class ParkingLotSystem {
         level1.addParkingSpots(VehicleType.TRUNK, 2);
         system.addLevel(level1);
 
-
         system.parkingLot.displayParkingSpots();
         System.out.println("------------------------------------");
         Car car1 = new Car("Car1");
