@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AmazonLockerService {
 
@@ -15,16 +15,18 @@ public class AmazonLockerService {
 
     PassCodeService passCodeService;
 
-    SmsNotificationService smsNotificationService;
-
-    EmailNotificationService emailNotificationService;
-
     HashMap<NotificationType, NotificationService> notificationServices;
 
+    public AmazonLockerService(HashMap<NotificationType, NotificationService> notificationServices) {
+        lockers = new ArrayList<>();
+    }
+
     // call this api when users choose the locker as delivery location.
-    public List<Locker> searchLockerByLocation(float log, float lat) {
-        return lockers;
-        // return lockers; filter by long, lat and status.
+    public List<Locker> searchLockerByLocation(float longitude, float latitude) {
+        // TODO: filter by longitude and latitude.
+        return lockers.stream()
+                .filter(l -> l.getStatus() == LockerStatus.ACTIVE)
+                .collect(Collectors.toList());
     }
 
     // call this api after users select a locker or after checkout?
@@ -40,20 +42,30 @@ public class AmazonLockerService {
 
         pkg.setPickupCode(passCodeService.generateCode(pkg));
 
-        notify(compartment, NotificationType.SMS);
-        notify(compartment, NotificationType.EMAIL);
+        NotificationPayload payload = new NotificationPayload(pkg.getCustomerId(), "a message....", LocalDateTime.now());
+        notify(payload, NotificationType.SMS);
+        notify(payload, NotificationType.EMAIL);
 
     }
 
-    public void notify(Compartment compartment, NotificationType type) {
+    public void notify(NotificationPayload payload, NotificationType type) {
         NotificationService notificationService  = notificationServices.get(type);
-        notificationService.send(compartment);
+        notificationService.send(payload);
     }
 
 }
 
 class LockerAssignmentService {
 
+    public Compartment assignCompartment(Package pkg, Locker locker) {
+        return locker.getCompartments().stream()
+                .filter(comp -> comp.getStatus() == CompartmentStatus.AVAILABLE
+                        && comp.getSize() == pkg.getCompartmentSize())
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No available compartments of the lock for this package"));
+    }
+
+    /*
     public Compartment assignCompartment(Package pkg, Locker locker) {
         for (Compartment comp : locker.getCompartments()) {
             if (comp.getStatus() == CompartmentStatus.AVAILABLE
@@ -62,7 +74,7 @@ class LockerAssignmentService {
             }
         }
         throw new RuntimeException("No available compartments of the lock for this package");
-    }
+    }*/
 
 }
 
@@ -79,20 +91,20 @@ class LockerAccessService {
 class PassCodeService {
 
     public PassCode generateCode(Package pkg) {
-        PassCode code = new PassCode(String.valueOf(pkg.getCustomerId()), LocalDateTime.now().plusDays(3));
-        return code;
+        String code = UUID.randomUUID().toString().substring(0, 6);
+        return new PassCode(code, LocalDateTime.now().plusDays(3));
     }
 }
 
 interface NotificationService {
 
-    void send(Compartment compartment);
+    void send(NotificationPayload notificationPayload);
 }
 
 class SmsNotificationService implements NotificationService {
 
     @Override
-    public void send(Compartment compartment) {
+    public void send(NotificationPayload notificationPayload) {
         // via sms....
     }
 }
@@ -100,15 +112,27 @@ class SmsNotificationService implements NotificationService {
 class EmailNotificationService implements NotificationService {
 
     @Override
-    public void send(Compartment compartment) {
+    public void send(NotificationPayload notificationPayload) {
         // via email....
     }
 }
 
-@Data
-class Notification {
-    Compartment compartment;
+class NotificationFactory {
 
+    public static Map<NotificationType ,NotificationService> createNotificationService() {
+        Map<NotificationType ,NotificationService> services = new HashMap<>();
+        services.put(NotificationType.SMS, new SmsNotificationService());
+        services.put(NotificationType.EMAIL, new EmailNotificationService());
+        return services;
+    }
+}
+
+@AllArgsConstructor
+@Data
+class NotificationPayload {
+    int recipientId;
+    String message;
+    LocalDateTime timestamp;
 }
 
 enum NotificationType {
@@ -160,6 +184,10 @@ class Locker {
 class PassCode { // TODO: to reuse when refund.
     String code;
     LocalDateTime expiredAt;
+
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(expiredAt);
+    }
 }
 
 enum PackageStatus {
